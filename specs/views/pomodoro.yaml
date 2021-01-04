@@ -1,0 +1,43 @@
+strings:
+  startButtonTitle: Start
+  taskType: task
+
+connector:
+  stateToProps:
+    pomodoroState: state.ui.pomodoro
+    tasks:
+      statePath: state.data.entities
+      filterItems:
+        - and
+        -
+          - equals
+          - item.type
+          - strings.taskType
+        - item.props.isFocused
+  dispatchToProps:
+    onPomodoroStarted:
+      type: pomodoro-start
+
+views:
+  - id: start-button
+    type: button
+    if:
+      - and
+      -
+        - not
+        - props.pomodoroState.isRunning
+      -
+        - isNotNull
+        - props.pomodoroState.selectedId
+    props:
+      title: startButtonTitle
+      actions:
+        - on: click
+          prop: onPomodoroStarted
+          args:
+            - id: pomodoroState.selectedId
+
+  - id: task-list
+    type: list
+    props:
+      items: props.tasks

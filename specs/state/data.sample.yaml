@@ -1,0 +1,5 @@
+entities:
+  - id: 42
+    type: task
+    props:
+      title: Foo
